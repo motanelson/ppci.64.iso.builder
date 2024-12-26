@@ -16,10 +16,7 @@ try:
     from cStringIO import StringIO as BytesIO
 except ImportError:
     from io import BytesIO
-gcc="/usr/bin/x86_64-linux-gnu-gcc"
-asld="/usr/bin/x86_64-linux-gnu-ld"
-asas="/usr/bin/x86_64-linux-gnu-as"
-asobj="/usr/bin/x86_64-linux-gnu-objcopy"
+
 class FSProcessorApp:
     def __init__(self, root):
         self.root = root
@@ -66,20 +63,19 @@ class FSProcessorApp:
         if not file_path:
             return
         try:
-            print(file_path)
             f1=open(file_path,"r")
             codes=f1.read()
             f1.close()
             source_file = io.StringIO(codes)
             obj = cc(source_file, 'x86_64')
-            obj=link([obj])
+            obj=link([obj],"link.ld")
         except Exception as e:
              messagebox.showerror("Error", f"Failed to load .fs file: {e}")
         else:
     
-             f1=open("/tmp/hello.c32","wb")
+             f1=open("hello.c32","wb")
              f1.write(obj.sections[1].data)
-             print(obj.sections[1].data)
+             
              f1.close()
         try:
             system_name=file_path
@@ -89,13 +85,13 @@ class FSProcessorApp:
             
 
             self.system_name="SYSTEM"
-           
-            self.execute_command("cp mysys.dat /tmp/mysys.o",False)
+            print(file_path)
+            self.execute_command("cp mysys.dat mysys.o",False)
             
 
-            self.execute_command("cat /tmp/mysys.o /tmp/hello.c32 > /tmp/sys.bin",False)
+            self.execute_command("cat mysys.o hello.c32 > sys.bin",False)
             
-            with open("/tmp/sys.bin", "rb") as f:
+            with open("sys.bin", "rb") as f:
                 content = f.read()
                 self.files_to_process=content
                 self.files_to_exe = content

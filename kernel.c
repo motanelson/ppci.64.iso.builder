@@ -1,4 +1,18 @@
-void kernel_main();
+void main();
+void _start();
+void scrollb8000();
+void copyb8000(int address,char *s);
+void locate(int x,int y);
+void putss(char* s);
+void _start(){
+    main();
+}
+void main(){
+    
+    putss("hello world\n\n");
+    for(;;);
+}
+
 int xxx=0;
 int yyy=0;
 int zzz=0;
@@ -51,8 +65,3 @@ void putss(char* s){
 	locate(xxx,yyy);
 }
 
-void kernel_main(){
-    
-    putss("hello world\n\n");
-    for(;;);
-}

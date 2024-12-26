@@ -1,33 +1,11 @@
-ENTRY(_start)
-SECTIONS
-{
-	
-	. = 0x7e00;
+ MEMORY code LOCATION=0x7e00 SIZE=0x10000{
  
-	
-	.text BLOCK(4K) : ALIGN(4K)
-	{
-		*(.multiboot)
-		*(.text)
-	}
+ SECTION(code)
+ ALIGN(4)
+ SECTION(reset)
  
-	
-	.rodata BLOCK(4K) : ALIGN(4K)
-	{
-		*(.rodata)
-	}
  
-	
-	.data BLOCK(4K) : ALIGN(4K)
-	{
-		*(.data)
-	}
- 
-	
-	.bss BLOCK(4K) : ALIGN(4K)
-	{
-		*(COMMON)
-		*(.bss)
-	}
- 
-}
+ }
+ MEMORY ram LOCATION=0x7f00 SIZE=0xA000{
+ SECTION(data)
+ }
